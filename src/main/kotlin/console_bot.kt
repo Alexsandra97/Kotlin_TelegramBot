@@ -12,7 +12,6 @@ fun main() {
         dictionary.add(word)
 
     }
-
     println(dictionary)
 }
 
