@@ -3,8 +3,8 @@ import java.io.File
 fun main() {
     val dictionary = loadDictionary()
 
-    var userInput = ""
-    while (userInput != "0") {
+    var userInput = "1"
+    while (userInput != "") {
         println(
             """Меню: 
 1 – Учить слова
