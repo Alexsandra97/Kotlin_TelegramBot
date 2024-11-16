@@ -16,7 +16,14 @@ fun main() {
 
         when (userInput) {
             "1" -> println("Учить слова")
-            "2" -> println("Статистика")
+            "2" -> {
+                val totalCount = dictionary.count()
+                val learnedCount = dictionary.filter { it.correctAnswersCount >= 3 }.count()
+                val percent = (100 * (learnedCount.toDouble() / totalCount)).toInt()
+                println("Выучено $learnedCount из $totalCount | $percent%")
+                println()
+            }
+
             "0" -> return
             else -> println("Введите число 1, 2 или 0")
 
