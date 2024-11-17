@@ -3,8 +3,8 @@ import java.io.File
 fun main() {
     val dictionary = loadDictionary()
 
-    var userInput = "1"
-    while (userInput != "") {
+
+    while (true) {
         println(
             """Меню: 
 1 – Учить слова
@@ -12,10 +12,23 @@ fun main() {
 0 – Выход
     """
         )
-        userInput = readln()
+        val userInput = readln()
 
         when (userInput) {
-            "1" -> println("Учить слова")
+            "1" -> {
+                val notLearnedList = dictionary.filter { it.correctAnswersCount < 3 }
+                if (notLearnedList.isEmpty()) {
+                    println("Все слова в словаре выучены")
+                }
+
+                val questionWords = notLearnedList.shuffled().take(4)
+                val correctAnswer = questionWords[(0..3).random()].original
+                println()
+                println("$correctAnswer:")
+                questionWords.forEachIndexed { i, element -> println("${i + 1} - ${element.translate}") }
+                val responseNumber = readln()
+            }
+
             "2" -> {
                 val totalCount = dictionary.count()
                 val learnedCount = dictionary.filter { it.correctAnswersCount >= 3 }.count()
@@ -24,8 +37,13 @@ fun main() {
                 println()
             }
 
-            "0" -> return
-            else -> println("Введите число 1, 2 или 0")
+            "0" -> {
+                return
+            }
+
+            else -> {
+                println("Введите число 1, 2 или 0")
+            }
 
         }
     }
