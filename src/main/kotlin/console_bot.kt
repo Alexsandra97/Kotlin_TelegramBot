@@ -19,10 +19,11 @@ fun main() {
                 val notLearnedList = dictionary.filter { it.correctAnswersCount < 3 }
                 if (notLearnedList.isEmpty()) {
                     println("Все слова в словаре выучены")
+                    continue
                 }
 
                 val questionWords = notLearnedList.shuffled().take(4)
-                val correctAnswer = questionWords[(0..3).random()].original
+                val correctAnswer = questionWords.random().original
                 println()
                 println("$correctAnswer:")
                 questionWords.forEachIndexed { i, element -> println("${i + 1} - ${element.translate}") }
