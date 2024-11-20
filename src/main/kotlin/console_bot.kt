@@ -23,11 +23,27 @@ fun main() {
                 }
 
                 val questionWords = notLearnedList.shuffled().take(4)
-                val correctAnswer = questionWords.random().original
+                val correctAnswer = questionWords.random()
                 println()
-                println("$correctAnswer:")
+                println("${correctAnswer.original}:")
                 questionWords.forEachIndexed { i, element -> println("${i + 1} - ${element.translate}") }
-                val responseNumber = readln()
+                println(
+                    """----------
+0 - Меню
+                """.trimIndent()
+                )
+                val userAnswerInput = readln().toInt()
+                if (userAnswerInput == 0) continue
+                val correctAnswerId = questionWords.indexOf(correctAnswer)
+                if (correctAnswerId + 1 == userAnswerInput) {
+                    println("Правильно!")
+                    //correctAnswer.correctAnswersCount++
+                    dictionary.forEach {if (it.original == correctAnswer.original) it.correctAnswersCount++}
+                    saveDictionary(dictionary)
+
+                } else {
+                    println("Неправильно! ${correctAnswer.original} - это ${correctAnswer.translate}")
+                }
             }
 
             "2" -> {
@@ -69,4 +85,10 @@ fun loadDictionary(): List<Word> {
         dictionary.add(word)
     }
     return dictionary
+}
+
+fun saveDictionary(dictionary: List<Word>) {
+    val wordsFile: File = File("word.txt")
+    wordsFile.delete()
+    dictionary.forEach { it -> wordsFile.appendText("${it.original}|${it.translate}|${it.correctAnswersCount}\n") }
 }
